@@ -1,0 +1,104 @@
+import math
+
+
+
+
+#Index
+IDNUMBER = 0
+TRIPSTARTDATE = 1
+TRIPENDDATE = 2
+DURATIONOFTRIPSECONDS = 3
+DISTANCEOFTRIPMILES = 4
+COSTOFTRIP = 5
+COSTOFTRIPPAYMENTTYPE = 6
+TAXICOMPANY = 7
+TAXIPICKUPLOCATIONLATITUDE = 8
+TAXIPICKUPLOCATIONLONGITUDE = 9
+TAXIDROPOFFLOCATIONLATITUDE = 10
+TAXIDROPOFFLOCATIONLONGITUDE = 11
+
+
+#List of Lists
+def List_of_Lists():
+    Taxi_Data = []
+    filename = input(filename)
+    try:
+        Taxi_File  = open(filename,"r")
+        line_counter = 0
+        for line in Taxi_File:
+            try:
+                line_counter += 1
+                Taxi_ = line.split(",")
+                Taxi[IDNUMBER] = (Taxi[IDNUMBER])
+                Taxi[TRIPSTARTDATE] = (Taxi[TRIPSTARTDATE])
+                Taxi[TRIPENDDATE] = (Taxi[TRIPENDDATE])
+                Taxi[DURATIONOFTRIPSECONDS] = (Taxi[DURATIONOFTRIPSECONDS])
+                Taxi[DISTANCEOFTRIPMILES] = (Taxi[DISTANCEOFTRIPMILES])
+                Taxi[COSTOFTRIP] = (Taxi[COSTOFTRIP])
+                Taxi[COSTOFTRIPPAYMENTTYPE] = (Taxi[COSTOFTRIPPAYMENTTYPE])
+                Taxi[TAXICOMPANY] = (Taxi[TAXICOMPANY])
+                Taxi[TAXIPICKUPLOCATIONLATITUDE] = (Taxi[TAXIPICKUPLOCATIONLATITUDE])
+                Taxi[TAXIPICKUPLOCATIONLONGITUDE] = (Taxi[TAXIPICKUPLOCATIONLONGITUDE])
+                Taxi[TAXIDROPOFFLOCATIONLATITUDE] = (Taxi[TAXIDROPOFFLOCATIONLATITUDE])
+                Taxi[TAXIDROPOFFLOCATIONLONGITUDE] = (Taxi[TAXIDROPOFFLOCATIONLATITUDE])
+                Taxi_Data.append(Taxi)
+            except ValueError:
+                print("Skipping Line because of a bad value")
+        Taxi_File.close()
+    except FileNotFoundError:
+        print("Error",filename,"not found")
+    return Taxi_Data
+#Calculates Cash Cost and Average
+def Average_Cost_Cash(Taxi_Data):
+    Cash_Cost = 0
+    Cash_Average = 0
+    Cash_Payments = 0
+    for i in range(len(Taxi_Data)):
+        if Taxi_Data[i][COSTOFTRIPPAYMENTTYPE] == 'Cash':
+            Cash_Cost += float(Taxi_Data[i][COSTOFTRIP])
+            Cash_Payments +=1
+            Cash_Average = Cash_Cost/Cash_Payments
+    return Cash_Average
+#Calculates Credit Cost and Average
+def Average_Cost_Credit(Taxi_Data):
+    Credit_Cost = 0
+    Credit_Average = 0
+    Credit_Payments = 0
+    for i in range(len(Taxi_Data)):
+        if Taxi_Data[i][COSTOFTRIPPAYMENTTYPE] == 'Credit':
+            Credit_Cost += float(Taxi_Data[i][COSTOFTRIP])
+            Credit_Payments +=1
+            Credit_Average = Credit_Cost/Credit_Payments
+    return Credit_Average
+#Calculates how many trips began and ended on one day
+def Same_Day_Trip_Info(Taxi_Data):
+    Trips_On_Date = 0
+    Date_Input = input("Please Input which date you want, Enter as MM/DD/YYYY, Do not enter a zero if it would come before a digit")
+        for Taxi in Taxi_Data:
+            Pickup = Taxi[TRIPSTARTDATE]
+            Pickup_Date = Pickup.split(" ")
+            Dropoff = Taxi[TRIPENDDATE]
+            Dropoff_Date = Dropoff.split(" ")
+            if Dropoff_Date == Date_Input or Pickup_Date == Date_Input
+                Trips_On_Date +=1
+    return Trips_on_Date
+#Radians Distance calc
+def Distance():
+    LatitudeStart = input("Please input Latitude of start location")
+    LatitudeStart_Radians = math.radians(LatitudeStart)
+    LongitudeStart = input("Please input Longitude of start location")
+    LongitudeStart_Radians = math.radians(LongitudeStart)
+    LatitudeEnd = input("Please input Latitdue of end location")
+    LatitudeEnd_Radians = math.radians(LatitudeEnd)
+    LongitudeEnd = input("Please input Longitude of end location")
+    LongitudeEnd_Radian = math.radians(LongitudeEnd)
+    Distance_Final = math.acos(math.sin(LatitudeStart_Radians) * math.sin(LatitudeEnd_Radians) + math.cos(LongitudeStart_Radians) * math.cos(LongitudeEnd_Radian) * math.cos(LongitudeStart_Radians - LongitudeEnd_Radian)) *3959
+    return Distance_Final
+#Main
+def Main():
+     Taxi_Data = List_of_Lists()
+     print("Average Costs Credit and Cash", Average_Cost_Cash(), Average_Cost_Credit())
+     print("How Many trips start and end on a date", Same_Day_Trip_Info() )
+     print("Distance Input by user", Distance())
+
+#main()
